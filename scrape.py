@@ -15,12 +15,8 @@ def get_tweets(twitter_name):
 
     return text
 
-
-
 handle = input('enter a twitter handle: ')
-texty = get_tweets(handle)
-
-#print(texty)
+tweets = get_tweets(handle)
 
 def text_skipper(text, current):
     retweet_check = 'RT'
@@ -39,7 +35,7 @@ def text_skipper(text, current):
     return skip
 
 def markov(stringer_return):
-    words = texty.split()
+    words = tweets.split()
     dict = {}
     current_word = '$'
     skipper = False
@@ -63,7 +59,7 @@ def markov(stringer_return):
     
     return dict
 
-dictionary = markov(texty)
+dictionary = markov(tweets)
 print(dictionary)
 
 def generate_text(word_dict, num_words):
@@ -74,10 +70,7 @@ def generate_text(word_dict, num_words):
     increment = 0
     text = ''
 
-    """considering using a while *increment* < num_words
-    instead of a for loop so that I can end with punctuation.
-    Then don't increment if *increment* == num_words - 1 and
-    current_word[-1] != '.?!' """
+
     while increment < num_words:
         if current_word[-1] in '.?!':
             next_word = random.choice(word_dict['$'])
@@ -85,8 +78,8 @@ def generate_text(word_dict, num_words):
         else:
             next_word = random.choice(word_dict[current_word])
             #print(next_word, end=' ')
-            if current_word != '$':
-                text += current_word + ' '
+            if next_word != '$':
+                text += next_word + ' '
 
         if next_word not in word_dict:
             current_word = '$'
@@ -94,11 +87,10 @@ def generate_text(word_dict, num_words):
             current_word = next_word
         increment += 1
 
-        
     """ consider recursion for finishing a sentence with punctuation"""
     return text
 
-tweet = generate_text(dictionary, 25)
+tweet = generate_text(dictionary, 10)
 
 #generate_text(dictionary, 20)
 print(tweet)
