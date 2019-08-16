@@ -6,10 +6,10 @@ from scrape import auth, api, get_tweets
 
 auth.set_access_token(access_token, access_secret)
 
-handle = input('enter a twitter handle: ')
-tweets = get_tweets(handle)
+#handle = input('enter a twitter handle: ')
+#tweets = get_tweets(handle)
 
-def text_skipper(text, current):
+"""def text_skipper(text, current):
     retweet_check = 'RT'
     reply_check = '@'
     skip = current
@@ -23,20 +23,20 @@ def text_skipper(text, current):
     elif 'https://' in text:
         skip = True
     
-    return skip
+    return skip"""
 
-def markov(stringer_return):
+def markov(tweets):
     words = tweets.split()
     dict = {}
     current_word = '$'
-    skipper = False
+    #skipper = False
 
     for next_word in words:
         " so far, the skipper function is not effective. Will revisit later."
-        skipper = text_skipper(next_word, skipper)
-        if skipper:
-            pass
-        elif current_word not in dict:
+        #skipper = text_skipper(next_word, skipper)
+        #if skipper:
+        #    pass
+        if current_word not in dict:
             if current_word[-1] not in '!.?':
                 dict[current_word] = [next_word]
         else:
@@ -49,8 +49,8 @@ def markov(stringer_return):
     
     return dict
 
-dictionary = markov(tweets)
-print(dictionary)
+#dictionary = markov(tweets)
+#print(dictionary)
 
 def generate_text(word_dict, num_words):
     """ takes a dictionary and a positive integer num_words;
@@ -80,7 +80,13 @@ def generate_text(word_dict, num_words):
     "consider recursion for finishing a sentence with punctuation"
     return text
 
-tweet = generate_text(dictionary, 25)
+#tweet = generate_text(dictionary, 25)
 
 #generate_text(dictionary, 20)
-print(tweet)
+#print(tweet)
+
+def dict_maker(handle):
+    text = get_tweets(handle)
+    dictionary = markov(text)
+    
+    return dictionary

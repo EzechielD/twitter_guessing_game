@@ -2,16 +2,10 @@ import tweepy
 
 from keys import consumer_key, consumer_secret, access_token, access_secret
 from scrape import auth, api, get_tweets
-from set import markov
+from create import markov, dict_maker
 
 auth.set_access_token(access_token, access_secret)
 
-def dict_maker(handle):
-    text = get_tweets(handle)
-    dictionary = markov(text)
-    
-    return dictionary
-
-PhillyD = dict_maker('PhillyD')
-
-print(PhillyD)
+playstation = dict_maker("PlayStation")
+lil_nas_x = dict_maker("LilNasX")
+mark_hamill = dict_maker("HamillHimself")
