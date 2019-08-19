@@ -1,2 +1,5 @@
 keys.py
 game_env/
+.vscode/
+__pycache__/
+*.pyc

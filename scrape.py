@@ -1,4 +1,3 @@
-import random
 import tweepy
 
 from keys import consumer_key, consumer_secret, access_token, access_secret
