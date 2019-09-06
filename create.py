@@ -6,8 +6,6 @@ from scrape import auth, api, get_tweets
 
 auth.set_access_token(access_token, access_secret)
 
-#handle = input('enter a twitter handle: ')
-#tweets = get_tweets(handle)
 
 """def text_skipper(text, current):
     retweet_check = 'RT'
@@ -26,48 +24,46 @@ auth.set_access_token(access_token, access_secret)
     return skip"""
 
 def markov(tweets):
+    """ takes in the retrieved tweets from get_tweets;
+    creates a dictionary of all of the words used in that
+    account's last 200 tweets using a markov model
+    """
     words = tweets.split()
-    dict = {}
+    account_dict = {}
     current_word = '$'
     #skipper = False
 
     for next_word in words:
-        " so far, the skipper function is not effective. Will revisit later."
+        "so far, the skipper function is not effective. May revisit later"
         #skipper = text_skipper(next_word, skipper)
-        #if skipper:
+        #if skipper == True:
         #    pass
-        if current_word not in dict:
+        if current_word not in account_dict:
             if current_word[-1] not in '!.?':
-                dict[current_word] = [next_word]
+                account_dict[current_word] = [next_word]
         else:
-            dict[current_word] += [next_word]
+            account_dict[current_word] += [next_word]
         
         if next_word[-1] in '!?.':
             current_word = '$'
         else:
             current_word = next_word
     
-    return dict
-
-#dictionary = markov(tweets)
-#print(dictionary)
+    return account_dict
 
 def generate_text(word_dict, num_words):
-    """ takes a dictionary and a positive integer num_words;
+    """ takes a dictionary and a positive integer (num_words);
         uses word_dict to generate and print num_words words.
     """
     current_word = '$'
     increment = 0
     text = ''
 
-
     while increment < num_words:
         if current_word[-1] in '.?!':
             next_word = random.choice(word_dict['$'])
-            #print(next_word, end=' ')
         else:
             next_word = random.choice(word_dict[current_word])
-            #print(next_word, end=' ')
             if next_word != '$':
                 text += next_word + ' '
 
@@ -80,12 +76,10 @@ def generate_text(word_dict, num_words):
     "consider recursion for finishing a sentence with punctuation"
     return text
 
-#tweet = generate_text(dictionary, 25)
-
-#generate_text(dictionary, 20)
-#print(tweet)
-
 def dict_maker(handle):
+    """Takes in a twitter account name (handle);
+    creates and returns the markov model dictionary
+    """
     text = get_tweets(handle)
     dictionary = markov(text)
     
