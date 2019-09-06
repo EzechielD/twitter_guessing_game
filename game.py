@@ -9,37 +9,90 @@ def launcher(number):
 
     if number == 1:
         real = retrieve_tweet('LilNasX')
-        fake = generate_text(lil_nas_x, 10)
-        print(question(real, fake))
+        fake = generate_text(lil_nas_x, 20)
+        return(question(real, fake))
     elif number == 2:
         real = retrieve_tweet('HamillHimself')
-        fake = generate_text(mark_hamill, 10)
-        print(question(real, fake))
+        fake = generate_text(mark_hamill, 20)
+        return(question(real, fake))
     elif number == 3:
         real = retrieve_tweet('PlayStation')
-        fake = generate_text(playstation, 10)
-        print(question(real, fake))
+        fake = generate_text(playstation, 20)
+        return(question(real, fake))
 
 def retrieve_tweet(account):
     statuses = get_tweets(account)
-    status_list = statuses.split('\n')
+    status_list = statuses.split('\n')  #working on an alternative split
     randomizer = random.choice(status_list)
 
     return randomizer
 
-def question(t1, t2):
-        text = 'which one is real?' + '\n\n'
-        text += t1 + '\n\n' + 'or' + '\n\n' + t2
+def question(tweet1, tweet2):
+    options = [tweet1, tweet2]
+    choice1 = random.choice(options)
 
-        return text
+    if choice1 == tweet1:
+        choice2 = tweet2
+        ans_one = True
+    else:
+        choice2 = tweet1
+        ans_one = False
+    
+    text = 'which one is real?' + '\n\n'
+    text += choice1 + '\n\n' + 'or' + '\n\n' + choice2 + '\n'
+
+    print(text)
+
+    num_answer = int(input('Type your answer here: '))
+
+    check = score_state(num_answer, ans_one)
+
+    return check
+
+def score_state(num_answer, ans_one):
+    assert num_answer == 1 or 2
+
+    if num_answer == 1:
+        if ans_one == True:
+            correct = True
+        else:
+            correct = False
+    else:
+        if ans_one == True:
+            correct = False
+        else:
+            correct = True
+    
+    if correct == True:
+        print('Correct! choice ' + str(num_answer) + ' is real!')
+
+    else:
+        print('Incorrect!: choice ' + str(num_answer) + ' is fake!')
+    
+    return correct
+        
+
+answer = None
+
+def game():
+    #score = 0
+    lives = 2
+    check = None
+    print('Welcome to Twitwit! Please select an option below.')
+
+    print('1.) Lil Nas X' + '\n' + 
+        '2.) Mark Hamill' + '\n' +
+        '3.) PlayStation')
+
+    account = int(input('choice: '))
 
 
-print ('Welcome to Twitwit! please select an option below.')
+    while lives > 0:
+        print('loading...')
+        check = launcher(account)
+        if check == False:
+            lives -= 1
+            print('lives left: ' + lives)
 
-print('1.) Lil Nas X' + '\n' + 
-    '2.) Mark Hamill' + '\n' +
-    '3.) PlayStation')
 
-account = int(input('choice: '))
-
-launcher(account)
+game()
