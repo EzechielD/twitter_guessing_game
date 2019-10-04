@@ -6,23 +6,6 @@ from scrape import auth, api, get_tweets
 
 auth.set_access_token(access_token, access_secret)
 
-
-"""def text_skipper(text, current):
-    retweet_check = 'RT'
-    reply_check = '@'
-    skip = current
-
-    if skip:
-        skip = False
-    elif text[:2] == retweet_check:
-        skip = True
-    elif text[0] == reply_check:
-        skip = True
-    elif 'https://' in text:
-        skip = True
-    
-    return skip"""
-
 def markov(tweets):
     """ takes in the retrieved tweets from get_tweets;
     creates a dictionary of all of the words used in that
@@ -31,13 +14,8 @@ def markov(tweets):
     words = tweets.split()
     account_dict = {}
     current_word = '$'
-    #skipper = False
 
     for next_word in words:
-        "so far, the skipper function is not effective. May revisit later"
-        #skipper = text_skipper(next_word, skipper)
-        #if skipper == True:
-        #    pass
         if current_word not in account_dict:
             if current_word[-1] not in '!.?':
                 account_dict[current_word] = [next_word]
